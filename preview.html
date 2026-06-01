@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Smart Life Reminder – Habit Tracker & Reminder App</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --orange: #E8531A; --orange-hover: #c94410; --orange-light: #fff3ee;
+      --orange-border: rgba(232,83,26,.2); --dark: #111827; --body: #374151;
+      --muted: #6B7280; --light: #F9FAFB; --white: #ffffff; --border: #E5E7EB;
+      --radius: 16px; --shadow-lg: 0 16px 48px rgba(0,0,0,.14);
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Poppins', sans-serif; background: var(--white); color: var(--body); line-height: 1.6; -webkit-font-smoothing: antialiased; }
+
+    /* NAV */
+    nav { position: sticky; top: 0; z-index: 100; background: rgba(255,255,255,.95); backdrop-filter: blur(10px); border-bottom: 1px solid var(--border); padding: 0 48px; height: 68px; display: flex; align-items: center; justify-content: space-between; }
+    .nav-brand { display: flex; align-items: center; gap: 10px; font-size: .95rem; font-weight: 700; color: var(--dark); text-decoration: none; }
+    .nav-icon { width: 34px; height: 34px; background: var(--orange); border-radius: 10px; display: grid; place-items: center; }
+    .nav-icon svg { width: 18px; height: 18px; fill: white; }
+    .nav-links { display: flex; gap: 28px; list-style: none; }
+    .nav-links a { font-size: .85rem; font-weight: 500; color: var(--muted); text-decoration: none; transition: color .2s; }
+    .nav-links a:hover { color: var(--orange); }
+    .nav-btn { background: var(--orange); color: white; padding: 9px 22px; border-radius: 8px; font-family: 'Poppins', sans-serif; font-size: .85rem; font-weight: 600; text-decoration: none; transition: background .2s; box-shadow: 0 2px 8px rgba(232,83,26,.3); }
+    .nav-btn:hover { background: var(--orange-hover); }
+
+    /* HERO */
+    .hero { background: linear-gradient(160deg,#fff8f5 0%,#ffffff 60%); padding: 80px 48px 0; overflow: hidden; }
+    .hero-inner { max-width: 1120px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: flex-end; }
+    .hero-text { padding-bottom: 80px; }
+    .hero-badge { display: inline-flex; align-items: center; gap: 6px; background: var(--orange-light); color: var(--orange); border: 1px solid var(--orange-border); padding: 5px 14px; border-radius: 50px; font-size: .75rem; font-weight: 600; letter-spacing: .05em; text-transform: uppercase; margin-bottom: 22px; }
+    .badge-dot { width: 6px; height: 6px; background: var(--orange); border-radius: 50%; animation: blink 2s infinite; }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:.3} }
+    .hero h1 { font-size: clamp(2.2rem,4vw,3.4rem); font-weight: 800; color: var(--dark); line-height: 1.15; margin-bottom: 20px; letter-spacing: -.02em; }
+    .hero h1 span { color: var(--orange); }
+    .hero-desc { font-size: 1rem; color: var(--muted); line-height: 1.75; margin-bottom: 36px; max-width: 460px; }
+    .hero-btns { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 44px; }
+    .btn-primary { display: inline-flex; align-items: center; gap: 8px; background: var(--orange); color: white; padding: 13px 28px; border-radius: 10px; font-family: 'Poppins', sans-serif; font-size: .9rem; font-weight: 600; text-decoration: none; transition: all .2s; box-shadow: 0 4px 14px rgba(232,83,26,.35); }
+    .btn-primary:hover { background: var(--orange-hover); transform: translateY(-1px); }
+    .btn-outline { display: inline-flex; align-items: center; gap: 8px; background: white; color: var(--dark); border: 1.5px solid var(--border); padding: 12px 24px; border-radius: 10px; font-family: 'Poppins', sans-serif; font-size: .9rem; font-weight: 500; text-decoration: none; transition: all .2s; }
+    .btn-outline:hover { border-color: var(--orange); color: var(--orange); }
+    .hero-stats { display: flex; gap: 36px; padding-top: 32px; border-top: 1px solid var(--border); }
+    .stat strong { display: block; font-size: 1.6rem; font-weight: 800; color: var(--dark); letter-spacing: -.02em; }
+    .stat strong span { color: var(--orange); }
+    .stat small { font-size: .78rem; color: var(--muted); font-weight: 500; }
+    .hero-phones { display: flex; align-items: flex-end; justify-content: center; position: relative; height: 520px; }
+    .phone { border-radius: 36px; overflow: hidden; box-shadow: var(--shadow-lg); border: 3px solid rgba(255,255,255,.8); background: #111; flex-shrink: 0; }
+    .phone img { display: block; width: 100%; height: 100%; object-fit: cover; }
+    .phone-c { width: 210px; height: 440px; z-index: 3; position: relative; animation: floatC 4s ease-in-out infinite; }
+    .phone-l { width: 175px; height: 370px; z-index: 2; margin-right: -28px; transform: rotate(-5deg); opacity: .9; animation: floatL 4.5s ease-in-out infinite .4s; }
+    .phone-r { width: 175px; height: 370px; z-index: 2; margin-left: -28px; transform: rotate(5deg); opacity: .9; animation: floatR 5s ease-in-out infinite .8s; }
+    @keyframes floatC { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-12px)} }
+    @keyframes floatL { 0%,100%{transform:rotate(-5deg) translateY(0)} 50%{transform:rotate(-5deg) translateY(-10px)} }
+    @keyframes floatR { 0%,100%{transform:rotate(5deg) translateY(0)} 50%{transform:rotate(5deg) translateY(-10px)} }
+
+    /* TRUST BAR */
+    .trust-bar { background: var(--light); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 18px 48px; }
+    .trust-inner { max-width: 1120px; margin: 0 auto; display: flex; align-items: center; justify-content: center; gap: 40px; flex-wrap: wrap; }
+    .trust-item { display: flex; align-items: center; gap: 8px; font-size: .82rem; font-weight: 500; color: var(--muted); }
+    .trust-item svg { width: 16px; height: 16px; fill: var(--orange); flex-shrink: 0; }
+
+    /* SECTIONS */
+    .section { padding: 88px 48px; }
+    .section-inner { max-width: 1120px; margin: 0 auto; }
+    .section-header { text-align: center; margin-bottom: 52px; }
+    .label { display: inline-block; background: var(--orange-light); color: var(--orange); padding: 4px 14px; border-radius: 50px; font-size: .72rem; font-weight: 700; letter-spacing: .07em; text-transform: uppercase; margin-bottom: 14px; }
+    h2.title { font-size: clamp(1.8rem,3vw,2.6rem); font-weight: 800; color: var(--dark); line-height: 1.2; margin-bottom: 14px; letter-spacing: -.02em; }
+    h2.title span { color: var(--orange); }
+    .subtitle { font-size: .97rem; color: var(--muted); max-width: 520px; margin: 0 auto; }
+
+    /* FEATURES */
+    #features { background: var(--light); }
+    .features-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 20px; }
+    .f-card { background: white; border: 1px solid var(--border); border-radius: var(--radius); padding: 28px; transition: transform .25s, box-shadow .25s; }
+    .f-card:hover { transform: translateY(-4px); box-shadow: 0 8px 24px rgba(0,0,0,.09); }
+    .f-icon { width: 46px; height: 46px; border-radius: 12px; display: grid; place-items: center; font-size: 1.3rem; margin-bottom: 16px; }
+    .f-card h3 { font-size: .95rem; font-weight: 700; color: var(--dark); margin-bottom: 8px; }
+    .f-card p { font-size: .85rem; color: var(--muted); line-height: 1.65; }
+
+    /* SCREENSHOTS CAROUSEL */
+    #screenshots { background: white; }
+
+/*
+    .carousel-wrap { position: relative; }
+    .carousel-track {
+      display: flex; gap: 20px; overflow: hidden;
+      padding: 16px 4px 24px;
+    }
+*/
+    .carousel-wrap {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+}
+
+.carousel-track {
+    display: flex;
+    gap: 20px;
+    transition: transform 0.4s cubic-bezier(.4,0,.2,1);
+}
+
+
+    .carousel-slide {
+      flex: 0 0 calc((100% - 80px) / 5);
+      text-align: center;
+      transition: transform .3s;
+    }
+
+    .carousel-slide:hover .screen-phone { transform: translateY(-8px) scale(1.02); box-shadow: 0 28px 60px rgba(0,0,0,.2); }
+    .screen-phone { width: 100%; aspect-ratio: 9/19; border-radius: 26px; overflow: hidden; background: #111; box-shadow: var(--shadow-lg); border: 3px solid #e5e7eb; transition: transform .35s, box-shadow .35s; }
+    .screen-phone img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .screen-lbl { margin-top: 12px; font-size: .78rem; font-weight: 600; color: var(--muted); }
+
+    /* NAV ARROWS */
+    .carousel-btn {
+      position: absolute; top: 50%; transform: translateY(-60%);
+      width: 44px; height: 44px; border-radius: 50%;
+      background: white; border: 1.5px solid var(--border);
+      box-shadow: 0 2px 12px rgba(0,0,0,.1);
+      display: grid; place-items: center; cursor: pointer;
+      transition: all .2s; z-index: 10;
+    }
+    .carousel-btn:hover { background: var(--orange); border-color: var(--orange); }
+    .carousel-btn:hover svg { fill: white; }
+    .carousel-btn svg { width: 18px; height: 18px; fill: var(--muted); transition: fill .2s; }
+    .carousel-btn.prev { left: 10px; }
+    .carousel-btn.next { right: 10px; }
+    .carousel-btn:disabled { opacity: .35; cursor: default; }
+    .carousel-btn:disabled:hover { background: white; border-color: var(--border); }
+    .carousel-btn:disabled:hover svg { fill: var(--muted); }
+
+    /* DOTS */
+    .carousel-dots { display: flex; justify-content: center; gap: 7px; margin-top: 8px; }
+    .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--border); transition: all .25s; cursor: pointer; }
+    .dot.active { background: var(--orange); width: 22px; border-radius: 4px; }
+
+    /* STEPS */
+    #how { background: var(--light); }
+    .steps-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 24px; }
+    .step-card { background: white; border: 1px solid var(--border); border-radius: var(--radius); padding: 28px 22px; text-align: center; }
+    .step-num { width: 48px; height: 48px; background: var(--orange); color: white; border-radius: 50%; display: grid; place-items: center; font-size: 1.1rem; font-weight: 800; margin: 0 auto 16px; box-shadow: 0 4px 12px rgba(232,83,26,.35); }
+    .step-card h4 { font-size: .92rem; font-weight: 700; color: var(--dark); margin-bottom: 8px; }
+    .step-card p { font-size: .83rem; color: var(--muted); line-height: 1.6; }
+
+    /* THEMES */
+    #themes { background: var(--dark); }
+    #themes .label { background: rgba(255,255,255,.1); color: rgba(255,255,255,.7); }
+    #themes h2.title { color: white; }
+    #themes .subtitle { color: rgba(255,255,255,.5); }
+    .themes-grid { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 40px; }
+    .theme-chip { display: flex; align-items: center; gap: 10px; background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.1); border-radius: 50px; padding: 8px 18px 8px 8px; transition: all .2s; }
+    .theme-chip:hover { background: rgba(255,255,255,.12); transform: translateY(-2px); }
+    .tc-dot { width: 32px; height: 32px; border-radius: 50%; flex-shrink: 0; }
+    .tc-name { font-size: .82rem; font-weight: 600; color: rgba(255,255,255,.85); }
+
+    /* CTA */
+    #cta { background: linear-gradient(135deg,var(--orange) 0%,#c94410 100%); padding: 88px 48px; text-align: center; }
+    #cta h2 { font-size: clamp(1.8rem,3vw,2.6rem); font-weight: 800; color: white; margin-bottom: 14px; letter-spacing: -.02em; }
+    #cta p { font-size: .97rem; color: rgba(255,255,255,.8); max-width: 460px; margin: 0 auto 36px; }
+    .btn-white { display: inline-flex; align-items: center; gap: 8px; background: white; color: var(--orange); padding: 14px 32px; border-radius: 10px; font-family: 'Poppins', sans-serif; font-size: .92rem; font-weight: 700; text-decoration: none; transition: all .2s; box-shadow: 0 4px 20px rgba(0,0,0,.2); }
+    .btn-white:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(0,0,0,.25); }
+    .cta-note { margin-top: 18px; font-size: .78rem; color: rgba(255,255,255,.6); }
+
+    /* FOOTER */
+    footer { background: #0d1117; padding: 36px 48px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px; }
+    .footer-brand { font-size: .88rem; font-weight: 700; color: white; }
+    .footer-links { display: flex; gap: 20px; }
+    .footer-links a { font-size: .8rem; color: #6B7280; text-decoration: none; transition: color .2s; }
+    .footer-links a:hover { color: var(--orange); }
+    .footer-copy { font-size: .78rem; color: #6B7280; }
+
+    /* RESPONSIVE */
+    @media (max-width: 1000px) {
+      .carousel-slide { flex: 0 0 calc((100% - 60px) / 4); }
+    }
+    @media (max-width: 900px) {
+      nav { padding: 0 24px; } .nav-links { display: none; }
+      .hero { padding: 60px 24px 0; }
+      .hero-inner { grid-template-columns: 1fr; gap: 32px; }
+      .hero-text { padding-bottom: 0; }
+      .hero-phones { height: 400px; }
+      .phone-c { width: 170px; height: 356px; }
+      .phone-l, .phone-r { width: 140px; height: 295px; }
+      .section, #cta { padding: 64px 24px; }
+      .trust-bar { padding: 16px 24px; }
+      .features-grid { grid-template-columns: 1fr 1fr; }
+      .steps-grid { grid-template-columns: 1fr 1fr; }
+      .carousel-slide { flex: 0 0 calc((100% - 40px) / 3); }
+      footer { padding: 28px 24px; flex-direction: column; align-items: flex-start; }
+    }
+    @media (max-width: 600px) {
+      .features-grid { grid-template-columns: 1fr; }
+      .steps-grid { grid-template-columns: 1fr; }
+      .carousel-slide { flex: 0 0 calc((100% - 20px) / 2); }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-brand" href="#">
+    <span class="nav-icon"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 14h-2v-4h2v4zm0-6h-2V8h2v2z"/></svg></span>
+    Smart Life Reminder
+  </a>
+  <ul class="nav-links">
+    <li><a href="#features">Features</a></li>
+    <li><a href="#screenshots">Screenshots</a></li>
+    <li><a href="#how">How it Works</a></li>
+    <li><a href="#themes">Themes</a></li>
+  </ul>
+  <a href="#cta" class="nav-btn">Get the App</a>
+</nav>
+
+<section class="hero" id="home">
+  <div class="hero-inner">
+    <div class="hero-text">
+      <div class="hero-badge"><span class="badge-dot"></span>Now on Google Play</div>
+      <h1>Build habits.<br/>Never <span>forget</span>.<br/>Live better.</h1>
+      <p class="hero-desc">Smart Life Reminder combines habit tracking and smart reminders in one clean app. Set goals, log progress, and build streaks — personalized with a theme that's uniquely yours.</p>
+      <div class="hero-btns">
+        <a href="#cta" class="btn-primary">
+          <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M3.18 23.76c.3.17.65.2.98.07L13.93 12 4.16.17C3.83.04 3.48.07 3.18.24 2.55.58 2.18 1.25 2.18 2v19.76c0 .75.37 1.42.98 1.75v.25z"/></svg>
+          Download on Play Store
+        </a>
+        <a href="#screenshots" class="btn-outline">View Screenshots</a>
+      </div>
+      <div class="hero-stats">
+        <div class="stat"><strong>10<span>+</span></strong><small>Color Themes</small></div>
+        <div class="stat"><strong>∞</strong><small>Daily Habits</small></div>
+        <div class="stat"><strong>1<span> App</span></strong><small>All-in-one</small></div>
+      </div>
+    </div>
+    <div class="hero-phones">
+      <div class="phone phone-l"><img src="images/Home_1.jpg" alt="Habits"/></div>
+      <div class="phone phone-c"><img src="images/Habit tracker.jpg" alt="Home"/></div>
+      <div class="phone phone-r"><img src="images/Calendar.jpg" alt="Reminders"/></div>
+    </div>
+  </div>
+</section>
+
+<div class="trust-bar">
+  <div class="trust-inner">
+    <div class="trust-item"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14l-4-4 1.41-1.41L10 13.17l6.59-6.59L18 8l-8 8z"/></svg>Free to Download</div>
+    <div class="trust-item"><svg viewBox="0 0 24 24"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/></svg>Works Offline</div>
+    <div class="trust-item"><svg viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/></svg>Privacy First</div>
+    <div class="trust-item"><svg viewBox="0 0 24 24"><path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96z"/></svg>Google Drive Backup</div>
+    <div class="trust-item"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14l-4-4 1.41-1.41L10 13.17l6.59-6.59L18 8l-8 8z"/></svg>No Account Required</div>
+  </div>
+</div>
+
+<section class="section" id="features">
+  <div class="section-inner">
+    <div class="section-header">
+      <div class="label">Features</div>
+      <h2 class="title">Everything you need to <span>stay on track</span></h2>
+      <p class="subtitle">From quick habit logging to deep performance insights — one app for building the life you want.</p>
+    </div>
+    <div class="features-grid">
+      <div class="f-card"><div class="f-icon" style="background:#fff3ee">🎯</div><h3>Daily Habit Tracking</h3><p>Set daily targets with custom units and quick-log shortcuts. Track streaks and celebrate milestones with visual progress cards.</p></div>
+      <div class="f-card"><div class="f-icon" style="background:#f0eeff">🔔</div><h3>Smart Reminders</h3><p>Schedule one-off or recurring reminders across Finance, Health, Bills, Work, and more. Never miss what matters.</p></div>
+      <div class="f-card"><div class="f-icon" style="background:#edfff4">📊</div><h3>Performance Insights</h3><p>Weekly and monthly trend charts, streak counters, completion rates, and personalized coaching tips.</p></div>
+      <div class="f-card"><div class="f-icon" style="background:#eff6ff">📅</div><h3>Calendar View</h3><p>See habits and reminders side-by-side on a monthly calendar. Tap any day to review exactly what you accomplished.</p></div>
+      <div class="f-card"><div class="f-icon" style="background:#fffbeb">⏱️</div><h3>Timeline Feed</h3><p>A chronological feed of all habits and reminders in one place. Filter by type or browse the full day at a glance.</p></div>
+      <div class="f-card"><div class="f-icon" style="background:#fff3ee">🎨</div><h3>10 Color Themes</h3><p>Personalize your dashboard with curated palettes — Signature Orange, Midnight, Aurora, Crimson, Sapphire, and more.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="screenshots">
+  <div class="section-inner">
+    <div class="section-header">
+      <div class="label">Screenshots</div>
+      <h2 class="title">Beautiful at <span>every screen</span></h2>
+      <p class="subtitle">Clean, intuitive, and designed to delight. Use the arrows to browse all screens.</p>
+    </div>
+    <div class="carousel-wrap">
+      <button class="carousel-btn prev" id="prevBtn" aria-label="Previous">
+        <svg viewBox="0 0 24 24"><path d="M15.41 16.59L10.83 12l4.58-4.59L14 6l-6 6 6 6z"/></svg>
+      </button>
+      <div class="carousel-track" id="carouselTrack">
+        <div class="carousel-slide"><div class="screen-phone"><img src="images/Home_1.jpg" alt="Home Today"/></div><div class="screen-lbl">Home · Today</div></div>
+        <div class="carousel-slide"><div class="screen-phone"><img src="images/Home_2.jpg" alt="Home Blue Theme"/></div><div class="screen-lbl">Home · Blue Theme</div></div>
+        <div class="carousel-slide"><div class="screen-phone"><img src="images/Profile.jpg" alt="Profile"/></div><div class="screen-lbl">Profile</div></div>
+        <div class="carousel-slide"><div class="screen-phone"><img src="images/Brand Color.jpg" alt="Brand Color"/></div><div class="screen-lbl">Brand Color</div></div>
+        <div class="carousel-slide"><div class="screen-phone"><img src="images/Calendar.jpg" alt="Calendar"/></div><div class="screen-lbl">Calendar</div></div>
+        <div class="carousel-slide"><div class="screen-phone"><img src="images/Habit tracker.jpg" alt="Habit Tracker"/></div><div class="screen-lbl">Habit Tracker</div></div>
+        <div class="carousel-slide"><div class="screen-phone"><img src="images/Insights_1.jpg" alt="Insights weekly"/></div><div class="screen-lbl">Insights · Weekly</div></div>
+        <div class="carousel-slide"><div class="screen-phone"><img src="images/timeline.jpg" alt="Timeline"/></div><div class="screen-lbl">Timeline</div></div>
+        <div class="carousel-slide"><div class="screen-phone"><img src="images/Reminders.jpg" alt="Reminders"/></div><div class="screen-lbl">Reminders</div></div>
+        <div class="carousel-slide"><div class="screen-phone"><img src="images/Add Habit.jpg" alt="Add Habit"/></div><div class="screen-lbl">Add Habit</div></div>
+        <div class="carousel-slide"><div class="screen-phone"><img src="images/Add reminder.jpg" alt="Add Reminder"/></div><div class="screen-lbl">Add Reminder</div></div>
+        <div class="carousel-slide"><div class="screen-phone"><img src="images/Search.jpg" alt="Search"/></div><div class="screen-lbl">Search</div></div>
+        <div class="carousel-slide"><div class="screen-phone"><img src="images/Setting_1.jpg" alt="Setting Preferences"/></div><div class="screen-lbl">Setting · Preferences</div></div>
+        <div class="carousel-slide"><div class="screen-phone"><img src="images/Insights_2.jpg" alt="Insights Reading"/></div><div class="screen-lbl">Insights · Reading</div></div>
+        <div class="carousel-slide"><div class="screen-phone"><img src="images/Setting_2.jpg" alt="Setting backup"/></div><div class="screen-lbl">Setting · Backup</div></div>
+      </div>
+      <button class="carousel-btn next" id="nextBtn" aria-label="Next">
+        <svg viewBox="0 0 24 24"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6z"/></svg>
+      </button>
+    </div>
+    <div class="carousel-dots" id="carouselDots"></div>
+  </div>
+</section>
+
+<section class="section" id="how">
+  <div class="section-inner">
+    <div class="section-header">
+      <div class="label">How It Works</div>
+      <h2 class="title">Up and running in <span>4 simple steps</span></h2>
+      <p class="subtitle">Getting started takes less than 2 minutes. No sign-up, no friction.</p>
+    </div>
+    <div class="steps-grid">
+      <div class="step-card"><div class="step-num">1</div><h4>Download the App</h4><p>Free on Google Play Store. No account required to get started immediately.</p></div>
+      <div class="step-card"><div class="step-num">2</div><h4>Add Your Habits</h4><p>Pick from templates like Water Intake or Daily Exercise, or create fully custom habits.</p></div>
+      <div class="step-card"><div class="step-num">3</div><h4>Set Reminders</h4><p>Schedule smart reminders for bills, appointments, and tasks that matter to you.</p></div>
+      <div class="step-card"><div class="step-num">4</div><h4>Track &amp; Improve</h4><p>View streaks, completion rates, and weekly trends. Watch your best self emerge.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="themes">
+  <div class="section-inner">
+    <div class="section-header">
+      <div class="label">Personalization</div>
+      <h2 class="title">Make it <span>yours</span></h2>
+      <p class="subtitle">Choose from 10 premium color palettes to match your personality. Switch anytime from Settings.</p>
+    </div>
+    <div class="themes-grid">
+      <div class="theme-chip"><div class="tc-dot" style="background:#E8531A"></div><span class="tc-name">Signature</span></div>
+      <div class="theme-chip"><div class="tc-dot" style="background:#6B3FC7"></div><span class="tc-name">Midnight</span></div>
+      <div class="theme-chip"><div class="tc-dot" style="background:#00A88B"></div><span class="tc-name">Aurora</span></div>
+      <div class="theme-chip"><div class="tc-dot" style="background:#C0294A"></div><span class="tc-name">Crimson</span></div>
+      <div class="theme-chip"><div class="tc-dot" style="background:#3D566E"></div><span class="tc-name">Nordic</span></div>
+      <div class="theme-chip"><div class="tc-dot" style="background:#38C000"></div><span class="tc-name">Neon</span></div>
+      <div class="theme-chip"><div class="tc-dot" style="background:#F59E0B"></div><span class="tc-name">Sunset</span></div>
+      <div class="theme-chip"><div class="tc-dot" style="background:#C0284D"></div><span class="tc-name">Blush</span></div>
+      <div class="theme-chip"><div class="tc-dot" style="background:#2563EB"></div><span class="tc-name">Sapphire</span></div>
+      <div class="theme-chip"><div class="tc-dot" style="background:#0A6640"></div><span class="tc-name">Forest</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="cta">
+  <h2>Ready to build your best self?</h2>
+  <p>Download Smart Life Reminder for free and start building habits that actually stick.</p>
+  <p><a href="#" class="btn-white">
+    <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M3.18 23.76c.3.17.65.2.98.07L13.93 12 4.16.17C3.83.04 3.48.07 3.18.24 2.55.58 2.18 1.25 2.18 2v19.76c0 .75.37 1.42.98 1.75v.25z"/></svg>
+    Download on Google Play
+  </a></p>
+  <p class="cta-note">Free · No account required · Works offline · Google Drive backup</p>
+</section>
+
+<footer>
+  <span class="footer-brand">Smart Life Reminder</span>
+  <div class="footer-links">
+    <a href="#">Privacy Policy</a>
+    <a href="#">Terms of Service</a>
+    <a href="#">Contact Support</a>
+  </div>
+  <span class="footer-copy">© 2026 Smart Life Reminder. All rights reserved.</span>
+</footer>
+
+<script>
+(function() {
+  const track = document.getElementById('carouselTrack');
+  const prevBtn = document.getElementById('prevBtn');
+  const nextBtn = document.getElementById('nextBtn');
+  const dotsContainer = document.getElementById('carouselDots');
+
+  const slides = track.querySelectorAll('.carousel-slide');
+  const total = slides.length;
+  let current = 0;
+
+  function getVisible() {
+    const w = window.innerWidth;
+    if (w <= 600) return 2;
+    if (w <= 900) return 3;
+    if (w <= 1000) return 4;
+    return 5;
+  }
+
+  function totalPages() {
+    return Math.ceil(total / getVisible());
+  }
+
+  // Build dots
+  function buildDots() {
+    dotsContainer.innerHTML = '';
+    const pages = totalPages();
+    for (let i = 0; i < pages; i++) {
+      const d = document.createElement('div');
+      d.className = 'dot' + (i === current ? ' active' : '');
+      d.addEventListener('click', () => goTo(i));
+      dotsContainer.appendChild(d);
+    }
+  }
+
+  function updateDots() {
+    dotsContainer.querySelectorAll('.dot').forEach((d, i) => {
+      d.classList.toggle('active', i === current);
+    });
+  }
+
+  function goTo(page) {
+    const pages = totalPages();
+    current = Math.max(0, Math.min(page, pages - 1));
+    const vis = getVisible();
+    const slideW = slides[0].getBoundingClientRect().width + 20;
+    track.style.transform = `translateX(-${current * vis * slideW}px)`;
+    track.style.transition = 'transform 0.4s cubic-bezier(.4,0,.2,1)';
+    prevBtn.disabled = current === 0;
+    nextBtn.disabled = current >= pages - 1;
+    updateDots();
+  }
+
+  prevBtn.addEventListener('click', () => goTo(current - 1));
+  nextBtn.addEventListener('click', () => goTo(current + 1));
+
+  // Touch swipe
+  let startX = 0;
+  track.addEventListener('touchstart', e => { startX = e.touches[0].clientX; }, {passive: true});
+  track.addEventListener('touchend', e => {
+    const diff = startX - e.changedTouches[0].clientX;
+    if (Math.abs(diff) > 50) goTo(diff > 0 ? current + 1 : current - 1);
+  }, {passive: true});
+
+  window.addEventListener('resize', () => { buildDots(); goTo(0); });
+
+  buildDots();
+  goTo(0);
+})();
+</script>
+</body>
+</html>
