@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Help &amp; Support Portal – Smart Life Reminder</title>
+  <meta name="description" content="Get help with Smart Life Reminder. Browse support documents, resolve notification or backup issues on Android, and contact our developer support desk."/>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --orange: #E8531A; --orange-hover: #c94410; --orange-light: #fff3ee;
+      --orange-border: rgba(232,83,26,.2); --dark: #111827; --body: #374151;
+      --muted: #6B7280; --light: #F9FAFB; --white: #ffffff; --border: #E5E7EB;
+      --radius: 16px; --shadow-lg: 0 16px 48px rgba(0,0,0,.14);
+      --green: #10B981; --green-light: #ECFDF5;
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Poppins', sans-serif; background: var(--light); color: var(--body); line-height: 1.7; -webkit-font-smoothing: antialiased; }
+
+    /* NAV */
+    nav { position: sticky; top: 0; z-index: 100; background: rgba(255,255,255,.95); backdrop-filter: blur(10px); border-bottom: 1px solid var(--border); padding: 0 48px; height: 68px; display: flex; align-items: center; justify-content: space-between; }
+    .nav-brand { display: flex; align-items: center; gap: 10px; font-size: .95rem; font-weight: 700; color: var(--dark); text-decoration: none; }
+    .nav-icon { width: 34px; height: 34px; background: var(--orange); border-radius: 10px; display: grid; place-items: center; }
+    .nav-icon svg { width: 18px; height: 18px; fill: white; }
+    .nav-links { display: flex; gap: 28px; list-style: none; }
+    .nav-links a { font-size: .85rem; font-weight: 500; color: var(--muted); text-decoration: none; transition: color .2s; }
+    .nav-links a:hover { color: var(--orange); }
+    .nav-btn { background: var(--orange); color: white; padding: 9px 22px; border-radius: 8px; font-family: 'Poppins', sans-serif; font-size: .85rem; font-weight: 600; text-decoration: none; transition: background .2s; box-shadow: 0 2px 8px rgba(232,83,26,.3); }
+    .nav-btn:hover { background: var(--orange-hover); }
+
+    /* HEADER */
+    .header-section { background: linear-gradient(160deg,#fff8f5 0%,#ffffff 100%); border-bottom: 1px solid var(--border); padding: 60px 48px 40px; text-align: center; }
+    .header-section h1 { font-size: 2.2rem; font-weight: 800; color: var(--dark); margin-bottom: 10px; }
+    .header-section p { font-size: 0.95rem; color: var(--muted); max-width: 600px; margin: 0 auto; }
+
+    /* MAIN CONTAINER */
+    .support-container { max-width: 1120px; margin: 40px auto; padding: 0 24px; display: grid; grid-template-columns: 1fr 440px; gap: 40px; align-items: start; }
+
+    /* FAQ ACCORDION */
+    .faq-panel { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius); padding: 32px; box-shadow: 0 4px 20px rgba(0,0,0,.02); }
+    .faq-panel h2 { font-size: 1.3rem; font-weight: 700; color: var(--dark); margin-bottom: 24px; display: flex; align-items: center; gap: 10px; }
+    .faq-panel h2 svg { width: 24px; height: 24px; fill: var(--orange); }
+    
+    .faq-list { display: flex; flex-direction: column; gap: 14px; }
+    .faq-item { border: 1.5px solid var(--border); border-radius: 12px; overflow: hidden; transition: border-color 0.25s; }
+    .faq-item.active { border-color: var(--orange); }
+    
+    .faq-question { width: 100%; background: none; border: none; padding: 18px 20px; text-align: left; display: flex; justify-content: space-between; align-items: center; font-family: 'Poppins', sans-serif; font-size: 0.92rem; font-weight: 600; color: var(--dark); cursor: pointer; transition: color 0.2s; outline: none; }
+    .faq-question:hover { color: var(--orange); }
+    .faq-question svg { width: 18px; height: 18px; fill: var(--muted); transition: transform 0.3s, fill 0.3s; flex-shrink: 0; }
+    .faq-item.active .faq-question svg { transform: rotate(180deg); fill: var(--orange); }
+    
+    .faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.3s ease-out; background: var(--light); border-top: 1px solid transparent; }
+    .faq-item.active .faq-answer { border-top-color: var(--border); }
+    .faq-answer-inner { padding: 18px 20px; font-size: 0.88rem; color: var(--body); line-height: 1.6; }
+    .faq-answer-inner strong { color: var(--dark); }
+
+    /* SUPPORT CONTACT FORM */
+    .form-panel { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius); padding: 32px; box-shadow: var(--shadow-lg); position: sticky; top: 108px; }
+    .form-panel h2 { font-size: 1.25rem; font-weight: 800; color: var(--dark); margin-bottom: 8px; }
+    .form-panel p.sub { font-size: 0.82rem; color: var(--muted); margin-bottom: 24px; line-height: 1.5; }
+
+    .form-group { margin-bottom: 18px; }
+    .form-group label { display: block; font-size: 0.78rem; font-weight: 700; color: var(--dark); text-transform: uppercase; margin-bottom: 8px; letter-spacing: 0.02em; }
+    .form-input, .form-textarea, .form-select { width: 100%; border: 1.5px solid var(--border); border-radius: 8px; padding: 11px 14px; font-family: 'Poppins', sans-serif; font-size: 0.85rem; outline: none; transition: border-color 0.2s; background: white; }
+    .form-input:focus, .form-textarea:focus, .form-select:focus { border-color: var(--orange); }
+    .form-textarea { height: 110px; resize: none; }
+
+    .btn-submit { width: 100%; background: var(--orange); color: white; border: none; padding: 14px; border-radius: 10px; font-family: 'Poppins', sans-serif; font-size: 0.9rem; font-weight: 700; cursor: pointer; transition: background 0.2s, transform 0.2s; box-shadow: 0 4px 12px rgba(232,83,26,0.3); }
+    .btn-submit:hover { background: var(--orange-hover); transform: translateY(-1px); }
+    .btn-submit:active { transform: translateY(0); }
+
+    /* OVERLAYS / LOADING & SUCCESS STATS */
+    .form-state-container { display: none; text-align: center; padding: 40px 10px; }
+    .form-spinner { width: 50px; height: 50px; border: 4px solid var(--orange-light); border-top-color: var(--orange); border-radius: 50%; margin: 0 auto 20px; animation: spin 0.8s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .success-badge { width: 64px; height: 64px; background: var(--green-light); color: var(--green); border-radius: 50%; display: grid; place-items: center; margin: 0 auto 20px; }
+    .success-badge svg { width: 32px; height: 32px; fill: currentColor; }
+    .form-state-container h3 { font-size: 1.15rem; font-weight: 700; color: var(--dark); margin-bottom: 10px; }
+    .form-state-container p { font-size: 0.85rem; color: var(--muted); line-height: 1.6; }
+    .btn-reset { margin-top: 24px; background: transparent; border: 1.5px solid var(--border); color: var(--body); padding: 8px 20px; border-radius: 8px; font-size: 0.8rem; font-weight: 600; cursor: pointer; transition: all 0.2s; }
+    .btn-reset:hover { border-color: var(--orange); color: var(--orange); }
+
+    /* FOOTER */
+    footer { background: #0d1117; padding: 36px 48px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px; margin-top: 80px; }
+    .footer-brand { font-size: .88rem; font-weight: 700; color: white; }
+    .footer-links { display: flex; gap: 20px; }
+    .footer-links a { font-size: .8rem; color: #6B7280; text-decoration: none; transition: color .2s; }
+    .footer-links a:hover { color: var(--orange); }
+    .footer-copy { font-size: .78rem; color: #6B7280; }
+
+    /* RESPONSIVE */
+    @media (max-width: 900px) {
+      nav { padding: 0 24px; } .nav-links { display: none; }
+      .header-section { padding: 40px 24px 30px; }
+      .support-container { grid-template-columns: 1fr; gap: 32px; }
+      .form-panel { position: static; }
+      footer { padding: 28px 24px; flex-direction: column; align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-brand" href="index.html">
+    <span class="nav-icon"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 14h-2v-4h2v4zm0-6h-2V8h2v2z"/></svg></span>
+    Smart Life Reminder
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html#features">Features</a></li>
+    <li><a href="index.html#screenshots">Screenshots</a></li>
+    <li><a href="privacy.html">Privacy Policy</a></li>
+  </ul>
+  <a href="index.html#cta" class="nav-btn">Get the App</a>
+</nav>
+
+<div class="header-section">
+  <h1>Help &amp; Support Desk</h1>
+  <p>Looking for answers or having configuration trouble? Check out our Android-specific troubleshooting files below or send a message directly to the engineering team.</p>
+</div>
+
+<div class="support-container">
+  
+  <div class="faq-panel">
+    <h2>
+      <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 16h-2v-2h2v2zm1.07-7.75l-.9.92C12.45 11.9 12 12.5 12 14h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H7c0-2.76 2.24-5 5-5s5 2.24 5 5c0 1.04-.42 1.99-1.07 2.75z"/></svg>
+      Frequently Asked Questions
+    </h2>
+    
+    <div class="faq-list">
+      
+      <!-- FAQ 1 -->
+      <div class="faq-item">
+        <button class="faq-question">
+          Why are my notification alerts delayed or not firing at all?
+          <svg viewBox="0 0 24 24"><path d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6z"/></svg>
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">
+            This is almost always due to **Android's system battery optimizations (Doze Mode)**. To save battery, Android prevents applications from waking up the processor at exact times unless battery rules are turned off.
+            <br/><br/>
+            <strong>To resolve this immediately:</strong>
+            <ol style="margin-left: 20px; margin-top: 8px; display: flex; flex-direction: column; gap: 4px;">
+              <li>Go to Android Settings > Apps > <strong>Smart Life Reminder</strong>.</li>
+              <li>Tap <strong>Battery</strong> or <strong>Battery Usage</strong>.</li>
+              <li>Change the restriction option from <em>Optimized</em> to <strong>Unrestricted</strong>.</li>
+              <li>Ensure <strong>Allow Notifications</strong> and <strong>Alarms &amp; Reminders</strong> permissions are turned on!</li>
+            </ol>
+          </div>
+        </div>
+      </div>
+
+      <!-- FAQ 2 -->
+      <div class="faq-item">
+        <button class="faq-question">
+          How does the Google Drive cloud backup sync work?
+          <svg viewBox="0 0 24 24"><path d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6z"/></svg>
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">
+            We prioritize your absolute privacy. When you turn on cloud backups, the app authenticates with Firebase Auth and syncs directly to a private, hidden folder in your **personal Google Drive account** (using the secure <code>drive.appdata</code> sandbox scope).
+            <br/><br/>
+            This hidden space is completely separated. Smart Life Reminder is **incapable** of reading or editing your documents, photos, or other personal folders in Google Drive, and the developer has zero access to your backup files.
+          </div>
+        </div>
+      </div>
+
+      <!-- FAQ 3 -->
+      <div class="faq-item">
+        <button class="faq-question">
+          Does this application operate offline without an internet connection?
+          <svg viewBox="0 0 24 24"><path d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6z"/></svg>
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">
+            <strong>Yes, 100%!</strong> Smart Life Reminder is designed as an offline-first utility. Your habits, lists, notes, and reminders are saved locally in a secure, sandboxed SQLite database (powered by Drift) directly on your device.
+            <br/><br/>
+            No internet is required to log habits, check calendar sheets, browse progress timelines, or receive notification alarms. Internet is only accessed if you manually initiate an optional Google Drive backup sync.
+          </div>
+        </div>
+      </div>
+
+      <!-- FAQ 4 -->
+      <div class="faq-item">
+        <button class="faq-question">
+          How do I transfer my database logs to a new phone?
+          <svg viewBox="0 0 24 24"><path d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6z"/></svg>
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">
+            Transferring data is easy and secure:
+            <br/><br/>
+            <strong>Option A (Google Drive Cloud):</strong>
+            <ol style="margin-left: 20px; margin-top: 6px; display: flex; flex-direction: column; gap: 4px;">
+              <li>On your old device: Go to <em>Profile > Settings > Backup</em>, and tap <strong>Backup Now</strong>.</li>
+              <li>On your new device: Install the app, sign into the **same Google Account** under Settings, and tap <strong>Restore Backup</strong>.</li>
+            </ol>
+            <br/>
+            <strong>Option B (Local File Portability):</strong>
+            <br/>
+            Go to <em>Profile > Settings > Export Backup File</em>. This downloads a `.db` database archive. Send this archive to your new device (via Email, Bluetooth, etc.), open the app on your new device, go to Settings, and select <strong>Import Backup File</strong>.
+          </div>
+        </div>
+      </div>
+
+      <!-- FAQ 5 -->
+      <div class="faq-item">
+        <button class="faq-question">
+          How do I permanently delete my profile backups and syncs?
+          <svg viewBox="0 0 24 24"><path d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6z"/></svg>
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">
+            To delete all your local database footprints, open the app, go to Settings, and select <strong>Reset All App Data</strong>. 
+            <br/><br/>
+            To purge any optional cloud backup linkages, you can immediately utilize our automated web portal on the <a href="deletion.html" style="color: var(--orange); text-decoration: none; font-weight: 600;">Data Deletion Request Page</a>.
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="form-panel">
+    <div id="form-actual">
+      <h2>Contact Support</h2>
+      <p class="sub">Need direct engineering support or have a feature request? Submit your ticket here, and our desk will respond in under 24 hours.</p>
+      
+      <form id="contact-form" onsubmit="handleContactSubmit(event)">
+        <div class="form-group">
+          <label for="c-name">Full Name</label>
+          <input type="text" id="c-name" required class="form-input" placeholder="e.g. John Doe"/>
+        </div>
+
+        <div class="form-group">
+          <label for="c-email">Email Address</label>
+          <input type="email" id="c-email" required class="form-input" placeholder="e.g. john@example.com"/>
+        </div>
+
+        <div class="form-group">
+          <label for="c-category">Ticket Category</label>
+          <select id="c-category" class="form-select">
+            <option>General Support / Help</option>
+            <option>Bug Report / Glitch</option>
+            <option>Google Sync Issues</option>
+            <option>Notification Troubleshooting</option>
+            <option>Feature Recommendation</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="c-message">Describe your issue</label>
+          <textarea id="c-message" required class="form-textarea" placeholder="Please write out the details of your ticket..."></textarea>
+        </div>
+
+        <button type="submit" class="btn-submit">Dispatch Ticket</button>
+      </form>
+    </div>
+
+    <!-- LOADING OVERLAY -->
+    <div id="form-loading" class="form-state-container">
+      <div class="form-spinner"></div>
+      <h3>Dispatching Ticket</h3>
+      <p>Packaging diagnostic flags and establishing handshakes with our support desk. Please hold...</p>
+    </div>
+
+    <!-- SUCCESS OVERLAY -->
+    <div id="form-success" class="form-state-container">
+      <div class="success-badge">
+        <svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+      </div>
+      <h3>Ticket Dispatched!</h3>
+      <p id="success-msg">Your inquiry has been successfully registered. A confirmation email has been sent. Our team will review and reply in under 24 hours.</p>
+      <button class="btn-reset" onclick="resetContactForm()">Submit Another Ticket</button>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <span class="footer-brand">Smart Life Reminder</span>
+  <div class="footer-links">
+    <a href="privacy.html">Privacy Policy</a>
+    <a href="terms.html">Terms of Service</a>
+    <a href="deletion.html">Data Deletion Request</a>
+    <a href="support.html">Contact &amp; Support</a>
+  </div>
+  <span class="footer-copy">© 2026 Smart Life Reminder. All rights reserved.</span>
+</footer>
+
+<script>
+  // FAQ Collapsible Accordion logic
+  const faqItems = document.querySelectorAll('.faq-item');
+
+  faqItems.forEach(item => {
+    const questionButton = item.querySelector('.faq-question');
+    const answerContainer = item.querySelector('.faq-answer');
+
+    questionButton.addEventListener('click', () => {
+      const isActive = item.classList.contains('active');
+
+      // Collapse all other active items
+      faqItems.forEach(otherItem => {
+        if (otherItem !== item && otherItem.classList.contains('active')) {
+          otherItem.classList.remove('active');
+          otherItem.querySelector('.faq-answer').style.maxHeight = '0';
+        }
+      });
+
+      // Toggle current item
+      if (isActive) {
+        item.classList.remove('active');
+        answerContainer.style.maxHeight = '0';
+      } else {
+        item.classList.add('active');
+        answerContainer.style.maxHeight = answerContainer.scrollHeight + 'px';
+      }
+    });
+  });
+
+  // Contact Form Submission Handler
+  function handleContactSubmit(e) {
+    e.preventDefault();
+    const name = document.getElementById('c-name').value;
+    
+    // Smooth transition to Loading State
+    document.getElementById('form-actual').style.display = 'none';
+    document.getElementById('form-loading').style.display = 'block';
+    
+    // Simulate API request and email routing
+    setTimeout(() => {
+      document.getElementById('form-loading').style.display = 'none';
+      document.getElementById('form-success').style.display = 'block';
+      document.getElementById('success-msg').innerHTML = `Thanks, <strong>${name}</strong>! Your support inquiry has been successfully registered. A confirmation email has been dispatched. Our team will review your case and get in touch within 24 hours.`;
+    }, 1800);
+  }
+
+  function resetContactForm() {
+    document.getElementById('contact-form').reset();
+    document.getElementById('form-success').style.display = 'none';
+    document.getElementById('form-actual').style.display = 'block';
+  }
+</script>
+
+</body>
+</html>

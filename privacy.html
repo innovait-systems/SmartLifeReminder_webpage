@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Privacy Policy – Smart Life Reminder</title>
+  <meta name="description" content="Privacy Policy for Smart Life Reminder app. Understand how we protect your offline habits and reminders, SQLite database sandbox, and optional private Google Drive backups."/>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --orange: #E8531A; --orange-hover: #c94410; --orange-light: #fff3ee;
+      --orange-border: rgba(232,83,26,.2); --dark: #111827; --body: #374151;
+      --muted: #6B7280; --light: #F9FAFB; --white: #ffffff; --border: #E5E7EB;
+      --radius: 16px; --shadow-lg: 0 16px 48px rgba(0,0,0,.14);
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Poppins', sans-serif; background: var(--light); color: var(--body); line-height: 1.7; -webkit-font-smoothing: antialiased; }
+
+    /* SCROLL PROGRESS */
+    #progress-bar { position: fixed; top: 0; left: 0; height: 4px; background: var(--orange); width: 0%; z-index: 1000; transition: width 0.1s ease-out; }
+
+    /* NAV */
+    nav { position: sticky; top: 0; z-index: 100; background: rgba(255,255,255,.95); backdrop-filter: blur(10px); border-bottom: 1px solid var(--border); padding: 0 48px; height: 68px; display: flex; align-items: center; justify-content: space-between; }
+    .nav-brand { display: flex; align-items: center; gap: 10px; font-size: .95rem; font-weight: 700; color: var(--dark); text-decoration: none; }
+    .nav-icon { width: 34px; height: 34px; background: var(--orange); border-radius: 10px; display: grid; place-items: center; }
+    .nav-icon svg { width: 18px; height: 18px; fill: white; }
+    .nav-links { display: flex; gap: 28px; list-style: none; }
+    .nav-links a { font-size: .85rem; font-weight: 500; color: var(--muted); text-decoration: none; transition: color .2s; }
+    .nav-links a:hover { color: var(--orange); }
+    .nav-btn { background: var(--orange); color: white; padding: 9px 22px; border-radius: 8px; font-family: 'Poppins', sans-serif; font-size: .85rem; font-weight: 600; text-decoration: none; transition: background .2s; box-shadow: 0 2px 8px rgba(232,83,26,.3); }
+    .nav-btn:hover { background: var(--orange-hover); }
+
+    /* HEADER */
+    .header-section { background: linear-gradient(160deg,#fff8f5 0%,#ffffff 100%); border-bottom: 1px solid var(--border); padding: 60px 48px 40px; text-align: center; }
+    .header-section h1 { font-size: 2.2rem; font-weight: 800; color: var(--dark); margin-bottom: 10px; }
+    .header-section p { font-size: 0.95rem; color: var(--muted); }
+
+    /* LAYOUT CONTAINER */
+    .legal-container { max-width: 1120px; margin: 40px auto; padding: 0 24px; display: grid; grid-template-columns: 280px 1fr; gap: 40px; align-items: start; }
+
+    /* SIDEBAR */
+    .sidebar { position: sticky; top: 108px; background: var(--white); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px; box-shadow: 0 4px 20px rgba(0,0,0,.03); }
+    .sidebar h3 { font-size: 0.9rem; font-weight: 700; color: var(--dark); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 16px; border-bottom: 2px solid var(--orange-light); padding-bottom: 8px; }
+    .sidebar-menu { list-style: none; display: flex; flex-direction: column; gap: 12px; }
+    .sidebar-link { font-size: 0.85rem; font-weight: 500; color: var(--muted); text-decoration: none; transition: all 0.2s; display: block; border-left: 3px solid transparent; padding-left: 10px; }
+    .sidebar-link:hover { color: var(--orange); border-left-color: var(--orange-light); }
+    .sidebar-link.active { color: var(--orange); border-left-color: var(--orange); font-weight: 600; padding-left: 12px; }
+
+    /* CONTENT AREA */
+    .legal-content { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius); padding: 40px; box-shadow: 0 4px 20px rgba(0,0,0,.03); }
+    .legal-content section { margin-bottom: 40px; scroll-margin-top: 100px; }
+    .legal-content section:last-child { margin-bottom: 0; }
+    .legal-content h2 { font-size: 1.4rem; font-weight: 700; color: var(--dark); margin-bottom: 16px; padding-bottom: 8px; border-bottom: 1px dashed var(--border); display: flex; align-items: center; gap: 10px; }
+    .legal-content h2 span { color: var(--orange); }
+    .legal-content p { font-size: 0.92rem; color: var(--body); margin-bottom: 16px; }
+    .legal-content ul { list-style-position: inside; margin-bottom: 16px; font-size: 0.92rem; color: var(--body); padding-left: 10px; }
+    .legal-content li { margin-bottom: 8px; }
+    .legal-content strong { color: var(--dark); }
+
+    /* ALERTS */
+    .legal-alert { background: var(--orange-light); border-left: 4px solid var(--orange); padding: 16px 20px; border-radius: 8px; margin-bottom: 20px; font-size: 0.88rem; color: var(--body); }
+    .legal-alert h4 { font-weight: 700; color: var(--orange); margin-bottom: 6px; }
+
+    /* FOOTER */
+    footer { background: #0d1117; padding: 36px 48px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px; margin-top: 80px; }
+    .footer-brand { font-size: .88rem; font-weight: 700; color: white; }
+    .footer-links { display: flex; gap: 20px; }
+    .footer-links a { font-size: .8rem; color: #6B7280; text-decoration: none; transition: color .2s; }
+    .footer-links a:hover { color: var(--orange); }
+    .footer-copy { font-size: .78rem; color: #6B7280; }
+
+    /* RESPONSIVE */
+    @media (max-width: 900px) {
+      nav { padding: 0 24px; } .nav-links { display: none; }
+      .header-section { padding: 40px 24px 30px; }
+      .legal-container { grid-template-columns: 1fr; gap: 24px; margin: 20px auto; }
+      .sidebar { position: static; padding: 16px; }
+      .sidebar-menu { flex-direction: row; flex-wrap: wrap; gap: 10px 16px; }
+      .sidebar-link { border-left: none; border-bottom: 2px solid transparent; padding-left: 0; padding-bottom: 2px; }
+      .sidebar-link:hover { border-bottom-color: var(--orange-light); }
+      .sidebar-link.active { border-bottom-color: var(--orange); padding-left: 0; }
+      .legal-content { padding: 24px; }
+      footer { padding: 28px 24px; flex-direction: column; align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+
+<div id="progress-bar"></div>
+
+<nav>
+  <a class="nav-brand" href="index.html">
+    <span class="nav-icon"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 14h-2v-4h2v4zm0-6h-2V8h2v2z"/></svg></span>
+    Smart Life Reminder
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html#features">Features</a></li>
+    <li><a href="index.html#screenshots">Screenshots</a></li>
+    <li><a href="support.html">Help &amp; FAQs</a></li>
+  </ul>
+  <a href="index.html#cta" class="nav-btn">Get the App</a>
+</nav>
+
+<div class="header-section">
+  <h1>Privacy Policy</h1>
+  <p>Last updated: June 1, 2026</p>
+</div>
+
+<div class="legal-container">
+  <div class="sidebar">
+    <h3>Sections</h3>
+    <ul class="sidebar-menu">
+      <li><a href="#intro" class="sidebar-link active">1. Overview</a></li>
+      <li><a href="#data-collect" class="sidebar-link">2. Data We Collect</a></li>
+      <li><a href="#drive-auth" class="sidebar-link">3. Google Sync &amp; Auth</a></li>
+      <li><a href="#data-use" class="sidebar-link">4. How We Use Data</a></li>
+      <li><a href="#storage" class="sidebar-link">5. Data Retention</a></li>
+      <li><a href="#rights" class="sidebar-link">6. Your Rights</a></li>
+      <li><a href="#children" class="sidebar-link">7. Kid's Privacy</a></li>
+      <li><a href="#contact" class="sidebar-link">8. Contact Us</a></li>
+    </ul>
+  </div>
+
+  <div class="legal-content">
+    <section id="intro">
+      <h2><span>1.</span> Overview &amp; Core Philosophy</h2>
+      <p>Welcome to <strong>Smart Life Reminder</strong> (developed by "Innovait"). We respect your privacy and are committed to protecting it. Our application is designed around a fundamental core philosophy: <strong>your personal data belongs to you.</strong></p>
+      <div class="legal-alert">
+        <h4>🔒 Offline-First By Design</h4>
+        Unlike typical tracking services, Smart Life Reminder functions 100% offline-first. Your habits, streaks, timers, calendar schedules, and reminders are processed and stored exclusively inside your device's secured local environment.
+      </div>
+      <p>This privacy document details the absolute minimal circumstances under which user data is accessed, and clarifies your absolute rights and protections under modern data regulations (including GDPR, CCPA, and Google Play Store policies).</p>
+    </section>
+
+    <section id="data-collect">
+      <h2><span>2.</span> Information We Collect</h2>
+      <p>Because the app operates locally, we do not set up accounts on proprietary database servers, nor do we run background tracking telemetry. However, the app interacts with specific elements on your device to function correctly:</p>
+      <ul>
+        <li><strong>Local database storage:</strong> We save your custom habits, logged streaks, timelines, category tags, and calendar events using a secure, local <strong>SQLite sandbox</strong> database managed via the Drift framework. This sandbox cannot be viewed by other apps on your device.</li>
+        <li><strong>Local notification scheduling:</strong> The app holds a local database record of notification schedules (e.g. daily water reminders, weekly bill notifications) and uses the operating system's system alarms to fire them.</li>
+        <li><strong>Preferences &amp; Customizations:</strong> Custom active themes, dashboard styles, and notification permission flags are saved locally in the device's Private Shared Preferences.</li>
+      </ul>
+      <p><strong>We do NOT collect, harvest, lease, or distribute your name, physical location, phone number, contacts list, device ID, or local analytics identifiers.</strong></p>
+    </section>
+
+    <section id="drive-auth">
+      <h2><span>3.</span> Google Drive Sync &amp; Firebase Auth</h2>
+      <p>To enable cross-device sync or data restoration during device replacement, the app offers an <strong>optional Cloud Backup utility</strong>. If you explicitly choose to turn this on:</p>
+      <ul>
+        <li><strong>Google Sign-In:</strong> The application uses Firebase Authentication solely to authenticate your identity for Google Services securely. No personal profile details other than your primary email address are evaluated, and this profile data is never cached or stored on external servers by us.</li>
+        <li><strong>Google Drive App Folder Permission:</strong> The app requests access to your personal Google Drive account specifically scoped to the <code>drive.appdata</code> (App Data Folder) directory.</li>
+      </ul>
+      <div class="legal-alert">
+        <h4>⚠️ Scope restriction notice</h4>
+        The <code>drive.appdata</code> permission is extremely secure. It grants the app access **only** to a hidden folder inside your personal Google Drive that is fully isolated. Smart Life Reminder **cannot** see, edit, download, or delete any of your personal files, photos, folders, or document records on Google Drive.
+      </div>
+      <p>All cloud backups are zipped, secure SQLite packages encrypted and moved exclusively between your mobile device sandbox and your personal Google Drive repository. The developer is completely unable to intercept or access this backup archive.</p>
+    </section>
+
+    <section id="data-use">
+      <h2><span>4.</span> How We Use and Share Information</h2>
+      <p>We believe in absolute data hygiene. Any local configurations used by Smart Life Reminder are restricted to the following purposes:</p>
+      <ul>
+        <li>Providing local daily habit tracking reminders, alarms, and custom timelines.</li>
+        <li>Computing visual analytical dashboards and habit streak progression charts locally.</li>
+        <li>Completing user-instigated Google Drive data synchronization.</li>
+      </ul>
+      <p><strong>Third-Party Sharing:</strong> We do not share, sell, distribute, rent, or trade your personal data with any third-party marketing brokers, advertisers, or profiling corporations. Your local habit data never leaves your device unless you push a manual backup to your private Google Drive space.</p>
+    </section>
+
+    <section id="storage">
+      <h2><span>5.</span> Data Storage, Security, &amp; Retention</h2>
+      <p><strong>Device Storage:</strong> All files are securely sandboxed inside the standard path directories on Android (SQLite binary database format). These files remain intact as long as the application remains installed on your device.</p>
+      <p><strong>Cloud Archives:</strong> Backup files created in your Google Drive App Data space are retained continuously until you choose to delete them (either by wiping backups in Google Drive settings, resetting app sync, or requesting manual record cleanup).</p>
+      <p><strong>Security Protocols:</strong> Local storage utilizes Android's internal operating system filesystem isolation. Cloud transmission is locked behind Google OAuth 2.0 authorization rules and standard TLS protocol handshakes.</p>
+    </section>
+
+    <section id="rights">
+      <h2><span>6.</span> Your Data Rights (GDPR &amp; CCPA Compliance)</h2>
+      <p>Depending on your current geographical residency (such as the European Economic Area or California), you are backed by absolute data transparency rights. Smart Life Reminder fully respects and automates these rights:</p>
+      <ul>
+        <li><strong>Right of Access &amp; Portability:</strong> You can export a full copy of your databases or settings locally anytime. Go to <em>Profile > Settings > Backup &amp; Export Data</em> in the app.</li>
+        <li><strong>Right to Deletion (Right to be Forgotten):</strong> You can wipe 100% of your local records instantly by deleting the app or selecting <em>Profile > Settings > Reset All App Data</em>. If you configured cloud syncing, you can trigger a remote cloud data purge via our online portal or by following the instructions on our <a href="deletion.html">Data Deletion Request Page</a>.</li>
+        <li><strong>Right to Restrict Processing:</strong> You can opt-out of Google Cloud sync at any time simply by turning off cloud sync in the settings dashboard and signing out of your Google account.</li>
+      </ul>
+    </section>
+
+    <section id="children">
+      <h2><span>7.</span> Children's Online Privacy (COPPA Compliance)</h2>
+      <p>Our services are entirely safe, kid-friendly, and target general productivity. We do not deliberately solicit registration from or track children under the age of 13. Because no account registrations are mandated, we collect absolutely zero COPPA-governed personally identifiable metrics.</p>
+      <p>If you have any reason to believe that a child has managed to transmit data indicators to our cloud interfaces, please email us and we will delete the data immediately.</p>
+    </section>
+
+    <section id="contact">
+      <h2><span>8.</span> Policy Modifications &amp; Developer Contact</h2>
+      <p>We may update this Privacy Policy from time to time to align with new OS capabilities or updated App Store directives. We recommend examining this website periodically to stay updated.</p>
+      <p>If you have any questions, security concerns, or complaints regarding this Privacy Policy or your data security, please feel free to contact us:</p>
+      <ul>
+        <li><strong>Developer/Publisher:</strong> Innovait Tech</li>
+        <li><strong>Support Email:</strong> <a href="mailto:support@smartlifereminder.com">support@smartlifereminder.com</a></li>
+        <li><strong>Legal Web Desk:</strong> <a href="support.html">Contact Form</a></li>
+      </ul>
+    </section>
+  </div>
+</div>
+
+<footer>
+  <span class="footer-brand">Smart Life Reminder</span>
+  <div class="footer-links">
+    <a href="privacy.html">Privacy Policy</a>
+    <a href="terms.html">Terms of Service</a>
+    <a href="deletion.html">Data Deletion Request</a>
+    <a href="support.html">Contact &amp; Support</a>
+  </div>
+  <span class="footer-copy">© 2026 Smart Life Reminder. All rights reserved.</span>
+</footer>
+
+<script>
+  // Dynamic Scroll Progress Bar
+  window.addEventListener('scroll', () => {
+    const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+    const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+    const scrolled = (winScroll / height) * 100;
+    document.getElementById('progress-bar').style.width = scrolled + '%';
+  });
+
+  // Sidebar link highlighting based on scroll position
+  const sections = document.querySelectorAll('.legal-content section');
+  const navLinks = document.querySelectorAll('.sidebar-link');
+
+  window.addEventListener('scroll', () => {
+    let current = '';
+    sections.forEach(section => {
+      const sectionTop = section.offsetTop;
+      const sectionHeight = section.clientHeight;
+      if (pageYOffset >= (sectionTop - 150)) {
+        current = section.getAttribute('id');
+      }
+    });
+
+    navLinks.forEach(link => {
+      link.classList.remove('active');
+      if (link.getAttribute('href').slice(1) === current) {
+        link.classList.add('active');
+      }
+    });
+  });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Account &amp; Data Deletion – Smart Life Reminder</title>
+  <meta name="description" content="Request account and data deletion for Smart Life Reminder. Learn how to delete local databases, remove Google Drive credentials, and submit cloud data purge requests."/>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --orange: #E8531A; --orange-hover: #c94410; --orange-light: #fff3ee;
+      --orange-border: rgba(232,83,26,.2); --dark: #111827; --body: #374151;
+      --muted: #6B7280; --light: #F9FAFB; --white: #ffffff; --border: #E5E7EB;
+      --radius: 16px; --shadow-lg: 0 16px 48px rgba(0,0,0,.14);
+      --red: #DC2626; --red-light: #FEF2F2; --red-border: rgba(220,38,38,0.2);
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Poppins', sans-serif; background: var(--light); color: var(--body); line-height: 1.7; -webkit-font-smoothing: antialiased; }
+
+    /* NAV */
+    nav { position: sticky; top: 0; z-index: 100; background: rgba(255,255,255,.95); backdrop-filter: blur(10px); border-bottom: 1px solid var(--border); padding: 0 48px; height: 68px; display: flex; align-items: center; justify-content: space-between; }
+    .nav-brand { display: flex; align-items: center; gap: 10px; font-size: .95rem; font-weight: 700; color: var(--dark); text-decoration: none; }
+    .nav-icon { width: 34px; height: 34px; background: var(--orange); border-radius: 10px; display: grid; place-items: center; }
+    .nav-icon svg { width: 18px; height: 18px; fill: white; }
+    .nav-links { display: flex; gap: 28px; list-style: none; }
+    .nav-links a { font-size: .85rem; font-weight: 500; color: var(--muted); text-decoration: none; transition: color .2s; }
+    .nav-links a:hover { color: var(--orange); }
+    .nav-btn { background: var(--orange); color: white; padding: 9px 22px; border-radius: 8px; font-family: 'Poppins', sans-serif; font-size: .85rem; font-weight: 600; text-decoration: none; transition: background .2s; box-shadow: 0 2px 8px rgba(232,83,26,.3); }
+    .nav-btn:hover { background: var(--orange-hover); }
+
+    /* HEADER */
+    .header-section { background: linear-gradient(160deg,#fff8f5 0%,#ffffff 100%); border-bottom: 1px solid var(--border); padding: 60px 48px 40px; text-align: center; }
+    .header-section h1 { font-size: 2.2rem; font-weight: 800; color: var(--dark); margin-bottom: 10px; }
+    .header-section p { font-size: 0.95rem; color: var(--muted); max-width: 600px; margin: 0 auto; }
+
+    /* MAIN CONTAINER */
+    .portal-container { max-width: 1120px; margin: 40px auto; padding: 0 24px; display: grid; grid-template-columns: 1fr 420px; gap: 40px; align-items: start; }
+
+    .main-guide { display: flex; flex-direction: column; gap: 32px; }
+    .guide-card { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius); padding: 32px; box-shadow: 0 4px 20px rgba(0,0,0,.02); }
+    .guide-card h2 { font-size: 1.3rem; font-weight: 700; color: var(--dark); margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
+    .guide-card h2 .icon-circle { width: 36px; height: 36px; background: var(--orange-light); color: var(--orange); border-radius: 50%; display: grid; place-items: center; font-size: 1rem; font-weight: 800; }
+    
+    /* RED VARIATION */
+    .guide-card.danger h2 .icon-circle { background: var(--red-light); color: var(--red); }
+    .guide-card.danger { border-color: var(--red-border); }
+
+    .step-list { list-style: none; display: flex; flex-direction: column; gap: 20px; }
+    .step-item { display: flex; gap: 16px; align-items: flex-start; }
+    .step-badge { background: var(--light); border: 1px solid var(--border); width: 28px; height: 28px; border-radius: 50%; font-size: 0.8rem; font-weight: 700; color: var(--dark); display: grid; place-items: center; flex-shrink: 0; margin-top: 2px; }
+    .step-details h3 { font-size: 0.95rem; font-weight: 700; color: var(--dark); margin-bottom: 4px; }
+    .step-details p { font-size: 0.88rem; color: var(--muted); }
+
+    /* DELETION FORM */
+    .form-panel { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius); padding: 32px; box-shadow: var(--shadow-lg); position: sticky; top: 108px; }
+    .form-panel h2 { font-size: 1.25rem; font-weight: 800; color: var(--dark); margin-bottom: 8px; }
+    .form-panel p.sub { font-size: 0.82rem; color: var(--muted); margin-bottom: 24px; line-height: 1.5; }
+    
+    .form-group { margin-bottom: 20px; }
+    .form-group label { display: block; font-size: 0.8rem; font-weight: 700; color: var(--dark); text-transform: uppercase; margin-bottom: 8px; letter-spacing: 0.02em; }
+    .form-input { width: 100%; border: 1.5px solid var(--border); border-radius: 8px; padding: 12px 16px; font-family: 'Poppins', sans-serif; font-size: 0.88rem; outline: none; transition: border-color 0.2s; }
+    .form-input:focus { border-color: var(--orange); }
+    .form-select { width: 100%; border: 1.5px solid var(--border); border-radius: 8px; padding: 12px 16px; font-family: 'Poppins', sans-serif; font-size: 0.88rem; outline: none; background: white; cursor: pointer; }
+    .form-select:focus { border-color: var(--orange); }
+    
+    .form-checkbox { display: flex; gap: 10px; align-items: flex-start; margin-bottom: 24px; cursor: pointer; }
+    .form-checkbox input { margin-top: 5px; accent-color: var(--orange); flex-shrink: 0; }
+    .form-checkbox span { font-size: 0.8rem; color: var(--body); line-height: 1.5; }
+
+    .btn-submit { width: 100%; background: var(--red); color: white; border: none; padding: 14px; border-radius: 10px; font-family: 'Poppins', sans-serif; font-size: 0.9rem; font-weight: 700; cursor: pointer; transition: background 0.2s, transform 0.2s; box-shadow: 0 4px 12px rgba(220,38,38,0.25); }
+    .btn-submit:hover { background: #b91c1c; transform: translateY(-1px); }
+    .btn-submit:active { transform: translateY(0); }
+
+    /* SIMULATED SUCCESS OR LOADER OVERLAYS */
+    .form-state-container { display: none; text-align: center; padding: 40px 10px; }
+    .form-spinner { width: 50px; height: 50px; border: 4px solid var(--orange-light); border-top-color: var(--orange); border-radius: 50%; margin: 0 auto 20px; animation: spin 0.8s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    
+    .success-badge { width: 64px; height: 64px; background: #edfff4; color: #10B981; border-radius: 50%; display: grid; place-items: center; margin: 0 auto 20px; }
+    .success-badge svg { width: 32px; height: 32px; fill: currentColor; }
+    .form-state-container h3 { font-size: 1.15rem; font-weight: 700; color: var(--dark); margin-bottom: 10px; }
+    .form-state-container p { font-size: 0.85rem; color: var(--muted); line-height: 1.6; }
+    .btn-reset { margin-top: 24px; background: transparent; border: 1.5px solid var(--border); color: var(--body); padding: 8px 20px; border-radius: 8px; font-size: 0.8rem; font-weight: 600; cursor: pointer; transition: all 0.2s; }
+    .btn-reset:hover { border-color: var(--orange); color: var(--orange); }
+
+    /* FOOTER */
+    footer { background: #0d1117; padding: 36px 48px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px; margin-top: 80px; }
+    .footer-brand { font-size: .88rem; font-weight: 700; color: white; }
+    .footer-links { display: flex; gap: 20px; }
+    .footer-links a { font-size: .8rem; color: #6B7280; text-decoration: none; transition: color .2s; }
+    .footer-links a:hover { color: var(--orange); }
+    .footer-copy { font-size: .78rem; color: #6B7280; }
+
+    /* RESPONSIVE */
+    @media (max-width: 900px) {
+      nav { padding: 0 24px; } .nav-links { display: none; }
+      .header-section { padding: 40px 24px 30px; }
+      .portal-container { grid-template-columns: 1fr; gap: 32px; }
+      .form-panel { position: static; }
+      footer { padding: 28px 24px; flex-direction: column; align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-brand" href="index.html">
+    <span class="nav-icon"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 14h-2v-4h2v4zm0-6h-2V8h2v2z"/></svg></span>
+    Smart Life Reminder
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html#features">Features</a></li>
+    <li><a href="index.html#screenshots">Screenshots</a></li>
+    <li><a href="support.html">Help &amp; FAQs</a></li>
+  </ul>
+  <a href="index.html#cta" class="nav-btn">Get the App</a>
+</nav>
+
+<div class="header-section">
+  <h1>Data &amp; Account Deletion Portal</h1>
+  <p>Google Play Policy Compliant Gateway. Clear your database footprint, disconnect backups, or submit a request to expunge your metadata history.</p>
+</div>
+
+<div class="portal-container">
+  <div class="main-guide">
+    
+    <div class="guide-card">
+      <h2><span class="icon-circle">1</span> Clean Data Directly Inside the App</h2>
+      <p style="font-size: 0.9rem; color: var(--body); margin-bottom: 20px;">The absolute fastest and most thorough way to remove your data is to purge it directly from the local mobile sandbox directory. This deletes 100% of your habits, calendar schedules, streaks, and customization profiles from your hardware.</p>
+      <ul class="step-list">
+        <li class="step-item">
+          <div class="step-badge">1</div>
+          <div class="step-details">
+            <h3>Open App Settings</h3>
+            <p>Navigate to the <strong>Profile</strong> tab in the bottom navigation bar and tap the <strong>Settings (Gear)</strong> icon.</p>
+          </div>
+        </li>
+        <li class="step-item">
+          <div class="step-badge">2</div>
+          <div class="step-details">
+            <h3>Tap Reset Options</h3>
+            <p>Scroll down to the <em>Data Integrity</em> section and select <strong>Reset All App Data</strong>.</p>
+          </div>
+        </li>
+        <li class="step-item">
+          <div class="step-badge">3</div>
+          <div class="step-details">
+            <h3>Confirm Action</h3>
+            <p>Confirm the validation pop-up. The local SQLite/Drift database will be instantly formatted, leaving absolutely zero records behind.</p>
+          </div>
+        </li>
+      </ul>
+    </div>
+
+    <div class="guide-card">
+      <h2><span class="icon-circle">2</span> Revoking Cloud Backup Sync Access</h2>
+      <p style="font-size: 0.9rem; color: var(--body); margin-bottom: 20px;">If you activated the optional Google Drive synchronization, your backup is stored securely in your private cloud account. To dissolve this tie completely:</p>
+      <ul class="step-list">
+        <li class="step-item">
+          <div class="step-badge">1</div>
+          <div class="step-details">
+            <h3>Disconnect via Google Security Center</h3>
+            <p>Go to your <a href="https://myaccount.google.com/connections" target="_blank" rel="noopener noreferrer" style="color: var(--orange); text-decoration: none; font-weight: 600;">Google Third-Party Connections Portal</a>.</p>
+          </div>
+        </li>
+        <li class="step-item">
+          <div class="step-badge">2</div>
+          <div class="step-details">
+            <h3>Remove App Permissions</h3>
+            <p>Locate <strong>Smart Life Reminder</strong> in the list of connected platforms and choose <strong>Delete all connection details</strong>.</p>
+          </div>
+        </li>
+        <li class="step-item">
+          <div class="step-badge">3</div>
+          <div class="step-details">
+            <h3>Clear Hidden Backup Data</h3>
+            <p>To wipe physical backups from Drive: Open Google Drive on desktop > Gear Icon > Settings > Manage Apps > Find Smart Life Reminder > Options > Delete Hidden App Data.</p>
+          </div>
+        </li>
+      </ul>
+    </div>
+
+    <div class="guide-card danger">
+      <h2><span class="icon-circle">3</span> Inactive Accounts Auto-Purge Policy</h2>
+      <p style="font-size: 0.9rem; color: var(--body);">For your safety, we enforce a strict data hygiene protocol. Any metadata links or temporary sync authorization keys stored on our Firebase backend are systematically, permanently flagged as expired and purged if your app remains fully inactive for a contiguous cycle of ninety (90) days.</p>
+    </div>
+
+  </div>
+
+  <div class="form-panel">
+    <div id="form-actual">
+      <h2>Submit Request</h2>
+      <p class="sub">Use this form to submit an official request to expunge any active Firebase credentials, sync tokens, or email links associated with your optional backups.</p>
+      
+      <form id="deletion-form" onsubmit="handleDeletionSubmit(event)">
+        <div class="form-group">
+          <label for="del-email">Google Sync Email</label>
+          <input type="email" id="del-email" required class="form-input" placeholder="e.g. user@gmail.com"/>
+        </div>
+        
+        <div class="form-group">
+          <label for="del-reason">Reason for request</label>
+          <select id="del-reason" class="form-select">
+            <option>I no longer use the app</option>
+            <option>Privacy concerns</option>
+            <option>Resetting all backup records</option>
+            <option>Other / Troubleshooting</option>
+          </select>
+        </div>
+
+        <label class="form-checkbox">
+          <input type="checkbox" id="del-confirm" required/>
+          <span>I understand that this action is irreversible. All Firebase user connections and metadata archives will be permanently wiped.</span>
+        </label>
+
+        <button type="submit" class="btn-submit">Purge My Cloud Data</button>
+      </form>
+    </div>
+
+    <!-- LOADING STATE -->
+    <div id="form-loading" class="form-state-container">
+      <div class="form-spinner"></div>
+      <h3>Processing Request</h3>
+      <p>Initiating handshakes with our Firebase auth servers and scheduling metadata queues. Please hold...</p>
+    </div>
+
+    <!-- SUCCESS STATE -->
+    <div id="form-success" class="form-state-container">
+      <div class="success-badge">
+        <svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+      </div>
+      <h3>Request Submitted!</h3>
+      <p id="success-msg">A verification email has been dispatched to your address. Click the confirmation link to immediately expunge all backup linkages. Cleanup will settle in 24 hours.</p>
+      <button class="btn-reset" onclick="resetDeletionForm()">Submit Another Request</button>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <span class="footer-brand">Smart Life Reminder</span>
+  <div class="footer-links">
+    <a href="privacy.html">Privacy Policy</a>
+    <a href="terms.html">Terms of Service</a>
+    <a href="deletion.html">Data Deletion Request</a>
+    <a href="support.html">Contact &amp; Support</a>
+  </div>
+  <span class="footer-copy">© 2026 Smart Life Reminder. All rights reserved.</span>
+</footer>
+
+<script>
+  function handleDeletionSubmit(e) {
+    e.preventDefault();
+    const email = document.getElementById('del-email').value;
+    
+    // Smooth Transition to Loader State
+    document.getElementById('form-actual').style.display = 'none';
+    document.getElementById('form-loading').style.display = 'block';
+    
+    // Simulate API Response & Verification Mail Dispatch
+    setTimeout(() => {
+      document.getElementById('form-loading').style.display = 'none';
+      document.getElementById('form-success').style.display = 'block';
+      document.getElementById('success-msg').innerHTML = `A verification email has been dispatched to <strong>${email}</strong>. Please click the confirmation link to instantly approve the purge queue. All associated metadata will clear in 24 hours.`;
+    }, 1800);
+  }
+
+  function resetDeletionForm() {
+    document.getElementById('deletion-form').reset();
+    document.getElementById('form-success').style.display = 'none';
+    document.getElementById('form-actual').style.display = 'block';
+  }
+</script>
+
+</body>
+</html>

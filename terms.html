@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Terms of Service – Smart Life Reminder</title>
+  <meta name="description" content="Terms of Service for Smart Life Reminder app. Understand the terms, license, offline data ownership, and billing details for using our reminder services."/>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --orange: #E8531A; --orange-hover: #c94410; --orange-light: #fff3ee;
+      --orange-border: rgba(232,83,26,.2); --dark: #111827; --body: #374151;
+      --muted: #6B7280; --light: #F9FAFB; --white: #ffffff; --border: #E5E7EB;
+      --radius: 16px; --shadow-lg: 0 16px 48px rgba(0,0,0,.14);
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Poppins', sans-serif; background: var(--light); color: var(--body); line-height: 1.7; -webkit-font-smoothing: antialiased; }
+
+    /* SCROLL PROGRESS */
+    #progress-bar { position: fixed; top: 0; left: 0; height: 4px; background: var(--orange); width: 0%; z-index: 1000; transition: width 0.1s ease-out; }
+
+    /* NAV */
+    nav { position: sticky; top: 0; z-index: 100; background: rgba(255,255,255,.95); backdrop-filter: blur(10px); border-bottom: 1px solid var(--border); padding: 0 48px; height: 68px; display: flex; align-items: center; justify-content: space-between; }
+    .nav-brand { display: flex; align-items: center; gap: 10px; font-size: .95rem; font-weight: 700; color: var(--dark); text-decoration: none; }
+    .nav-icon { width: 34px; height: 34px; background: var(--orange); border-radius: 10px; display: grid; place-items: center; }
+    .nav-icon svg { width: 18px; height: 18px; fill: white; }
+    .nav-links { display: flex; gap: 28px; list-style: none; }
+    .nav-links a { font-size: .85rem; font-weight: 500; color: var(--muted); text-decoration: none; transition: color .2s; }
+    .nav-links a:hover { color: var(--orange); }
+    .nav-btn { background: var(--orange); color: white; padding: 9px 22px; border-radius: 8px; font-family: 'Poppins', sans-serif; font-size: .85rem; font-weight: 600; text-decoration: none; transition: background .2s; box-shadow: 0 2px 8px rgba(232,83,26,.3); }
+    .nav-btn:hover { background: var(--orange-hover); }
+
+    /* HEADER */
+    .header-section { background: linear-gradient(160deg,#fff8f5 0%,#ffffff 100%); border-bottom: 1px solid var(--border); padding: 60px 48px 40px; text-align: center; }
+    .header-section h1 { font-size: 2.2rem; font-weight: 800; color: var(--dark); margin-bottom: 10px; }
+    .header-section p { font-size: 0.95rem; color: var(--muted); }
+
+    /* LAYOUT CONTAINER */
+    .legal-container { max-width: 1120px; margin: 40px auto; padding: 0 24px; display: grid; grid-template-columns: 280px 1fr; gap: 40px; align-items: start; }
+
+    /* SIDEBAR */
+    .sidebar { position: sticky; top: 108px; background: var(--white); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px; box-shadow: 0 4px 20px rgba(0,0,0,.03); }
+    .sidebar h3 { font-size: 0.9rem; font-weight: 700; color: var(--dark); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 16px; border-bottom: 2px solid var(--orange-light); padding-bottom: 8px; }
+    .sidebar-menu { list-style: none; display: flex; flex-direction: column; gap: 12px; }
+    .sidebar-link { font-size: 0.85rem; font-weight: 500; color: var(--muted); text-decoration: none; transition: all 0.2s; display: block; border-left: 3px solid transparent; padding-left: 10px; }
+    .sidebar-link:hover { color: var(--orange); border-left-color: var(--orange-light); }
+    .sidebar-link.active { color: var(--orange); border-left-color: var(--orange); font-weight: 600; padding-left: 12px; }
+
+    /* CONTENT AREA */
+    .legal-content { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius); padding: 40px; box-shadow: 0 4px 20px rgba(0,0,0,.03); }
+    .legal-content section { margin-bottom: 40px; scroll-margin-top: 100px; }
+    .legal-content section:last-child { margin-bottom: 0; }
+    .legal-content h2 { font-size: 1.4rem; font-weight: 700; color: var(--dark); margin-bottom: 16px; padding-bottom: 8px; border-bottom: 1px dashed var(--border); display: flex; align-items: center; gap: 10px; }
+    .legal-content h2 span { color: var(--orange); }
+    .legal-content p { font-size: 0.92rem; color: var(--body); margin-bottom: 16px; }
+    .legal-content ul { list-style-position: inside; margin-bottom: 16px; font-size: 0.92rem; color: var(--body); padding-left: 10px; }
+    .legal-content li { margin-bottom: 8px; }
+    .legal-content strong { color: var(--dark); }
+
+    /* ALERTS */
+    .legal-alert { background: var(--orange-light); border-left: 4px solid var(--orange); padding: 16px 20px; border-radius: 8px; margin-bottom: 20px; font-size: 0.88rem; color: var(--body); }
+    .legal-alert h4 { font-weight: 700; color: var(--orange); margin-bottom: 6px; }
+
+    /* FOOTER */
+    footer { background: #0d1117; padding: 36px 48px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px; margin-top: 80px; }
+    .footer-brand { font-size: .88rem; font-weight: 700; color: white; }
+    .footer-links { display: flex; gap: 20px; }
+    .footer-links a { font-size: .8rem; color: #6B7280; text-decoration: none; transition: color .2s; }
+    .footer-links a:hover { color: var(--orange); }
+    .footer-copy { font-size: .78rem; color: #6B7280; }
+
+    /* RESPONSIVE */
+    @media (max-width: 900px) {
+      nav { padding: 0 24px; } .nav-links { display: none; }
+      .header-section { padding: 40px 24px 30px; }
+      .legal-container { grid-template-columns: 1fr; gap: 24px; margin: 20px auto; }
+      .sidebar { position: static; padding: 16px; }
+      .sidebar-menu { flex-direction: row; flex-wrap: wrap; gap: 10px 16px; }
+      .sidebar-link { border-left: none; border-bottom: 2px solid transparent; padding-left: 0; padding-bottom: 2px; }
+      .sidebar-link:hover { border-bottom-color: var(--orange-light); }
+      .sidebar-link.active { border-bottom-color: var(--orange); padding-left: 0; }
+      .legal-content { padding: 24px; }
+      footer { padding: 28px 24px; flex-direction: column; align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+
+<div id="progress-bar"></div>
+
+<nav>
+  <a class="nav-brand" href="index.html">
+    <span class="nav-icon"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 14h-2v-4h2v4zm0-6h-2V8h2v2z"/></svg></span>
+    Smart Life Reminder
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html#features">Features</a></li>
+    <li><a href="index.html#screenshots">Screenshots</a></li>
+    <li><a href="support.html">Help &amp; FAQs</a></li>
+  </ul>
+  <a href="index.html#cta" class="nav-btn">Get the App</a>
+</nav>
+
+<div class="header-section">
+  <h1>Terms of Service</h1>
+  <p>Last updated: June 1, 2026</p>
+</div>
+
+<div class="legal-container">
+  <div class="sidebar">
+    <h3>Sections</h3>
+    <ul class="sidebar-menu">
+      <li><a href="#agreement" class="sidebar-link active">1. Agreement</a></li>
+      <li><a href="#license" class="sidebar-link">2. License Grant</a></li>
+      <li><a href="#ownership" class="sidebar-link">3. Your Data</a></li>
+      <li><a href="#billing" class="sidebar-link">4. In-App Purchases</a></li>
+      <li><a href="#restrictions" class="sidebar-link">5. Restrictions</a></li>
+      <li><a href="#warranties" class="sidebar-link">6. Disclaimers</a></li>
+      <li><a href="#liability" class="sidebar-link">7. Liability Limits</a></li>
+      <li><a href="#governing" class="sidebar-link">8. Governing Law</a></li>
+    </ul>
+  </div>
+
+  <div class="legal-content">
+    <section id="agreement">
+      <h2><span>1.</span> Acceptance of Terms</h2>
+      <p>By downloading, installing, or interacting with the <strong>Smart Life Reminder</strong> mobile application or this website, you agree to be bound by these Terms of Service ("Terms"). These Terms form a legally binding contract between you and <strong>Innovait Tech</strong> ("we," "us," or "our").</p>
+      <p>If you do not agree to these Terms, you must immediately uninstall the mobile application from all devices and cease browsing this web page.</p>
+    </section>
+
+    <section id="license">
+      <h2><span>2.</span> Scope of License</h2>
+      <p>We grant you a personal, non-transferable, non-exclusive, terminable license to download and utilize the Smart Life Reminder software on mobile hardware belonging to or controlled by you, in absolute accordance with these rules and Google Play Store Developer Guidelines.</p>
+      <p>This license is restricted to your own private, non-commercial usage. You may not attempt to distribute, compile, reverse-engineer, publish, or sublicense the application binary or visual assets (including dashboard layouts, theme colors, and icons) without our written consent.</p>
+    </section>
+
+    <section id="ownership">
+      <h2><span>3.</span> User Content &amp; Local Backup Responsibility</h2>
+      <p>Smart Life Reminder does not assert ownership of any content you record in the application (including custom habits, descriptions, and notification timelines). You own your data entirely.</p>
+      <div class="legal-alert">
+        <h4>💾 Offline Data Warning</h4>
+        Because Smart Life Reminder operates on an offline-first system, **we do not maintain user databases on our own servers.** 
+        If you delete the mobile application, clear your system cache, or lose your hardware device, all database contents (reminders, logs, habits, milestones) will be permanently lost. It is your sole responsibility to manage regular backups to your personal Google Drive or export data files using the app's internal backup tool.
+      </div>
+    </section>
+
+    <section id="billing">
+      <h2><span>4.</span> In-App Upgrades &amp; Billing</h2>
+      <p>While the basic habit and notification configurations are 100% free to download, the application may offer in-app purchases or subscriptions to unlock premium elements (such as advanced analytics dashboards, premium custom color themes, and priority support channels):</p>
+      <ul>
+        <li><strong>Play Store Billing:</strong> All monetization procedures are processed strictly through the Google Play Billing framework. Subscriptions are billed automatically based on the cycle you select.</li>
+        <li><strong>Cancellation &amp; Refunds:</strong> You can manage, cancel, or modify subscriptions at any time via your active Google Play Store account settings. Refunds are handled in accordance with standard Google Play Store refund policies.</li>
+      </ul>
+    </section>
+
+    <section id="restrictions">
+      <h2><span>5.</span> Acceptable Use &amp; Restrictions</h2>
+      <p>You agree that you will not use the application to engage in any activity that:</p>
+      <ul>
+        <li>Violates local, state, national, or international legal statutes or ordinances.</li>
+        <li>Attempts to inject malicious code, trojans, or SQL attacks into local SQLite databases or our cloud backup gateways.</li>
+        <li>Intends to script or automate high-frequency sync queries to our Firebase gateways.</li>
+        <li>Deceives, exploits, or harasses other individuals or the developers.</li>
+      </ul>
+    </section>
+
+    <section id="warranties">
+      <h2><span>6.</span> Disclaimer of Warranties</h2>
+      <p>THE APPLICATION AND WEBSITE CONTENT ARE PROVIDED ON AN "AS IS" AND "AS AVAILABLE" BASIS, WITHOUT REPRESENTATIONS OR WARRANTIES OF ANY KIND, EXPRESS OR IMPLIED.</p>
+      <p>WE EXPLICITLY DISCLAIM ALL WARRANTIES, INCLUDING BUT NOT LIMITED TO: MERCHANTABILITY, INTEGRITY OF DATABASE FILES, FITNESS FOR A PARTICULAR PURPOSE, AND NON-INFRINGEMENT. WE DO NOT WARRANT THAT THE UTILITY WILL COMMUNICATE DATA SECURELY AT ALL TIMES, THAT SCHEDULES WILL FIRE WITHOUT EXCEPTION, OR THAT CLOUD SYNCS WILL RESOLVE WITHOUT INTERRUPTION.</p>
+    </section>
+
+    <section id="liability">
+      <h2><span>7.</span> Limitation of Liability &amp; Alarms</h2>
+      <p>IN NO EVENT SHALL INNOVAIT TECH OR ITS EMPLOYEES BE LIABLE FOR ANY CONSEQUENTIAL, INDIRECT, INCIDENTAL, OR PUNITIVE DAMAGES RESULTING FROM DATA LOSS, CRASHES, SYSTEM REINSTALLATIONS, OR DEVICE DESTRUCTION.</p>
+      <div class="legal-alert">
+        <h4>🔋 Battery Optimization Notice</h4>
+        Android's energy management features (such as Doze mode or aggressive battery restriction layers) may delay or restrict local notification schedules. **We are not responsible for missed deadlines, forgotten tasks, medical emergencies, or lost revenues** caused by the device's operating system suppressing background tasks, notifications, or alarm schedules.
+      </div>
+      <p>Our cumulative financial liability for any claims originating under these Terms shall not exceed the total amount paid by you to us via Google Play billing during the six (6) month period preceding the claim.</p>
+    </section>
+
+    <section id="governing">
+      <h2><span>8.</span> Governing Law &amp; Severability</h2>
+      <p>These Terms, and all questions of construction, validation, and enforcement, shall be governed by and construed in accordance with the laws of your local jurisdiction, without regard to conflict-of-law principles.</p>
+      <p>If any provision of these Terms is deemed illegal, void, or unenforceable by an authorized court of law, that provision shall be severed, and the remaining agreements shall remain fully operational and legally binding.</p>
+      <p>For support, legal notices, or feedback, you can contact us at <a href="mailto:support@smartlifereminder.com">support@smartlifereminder.com</a> or visit our <a href="support.html">Help Desk</a>.</p>
+    </section>
+  </div>
+</div>
+
+<footer>
+  <span class="footer-brand">Smart Life Reminder</span>
+  <div class="footer-links">
+    <a href="privacy.html">Privacy Policy</a>
+    <a href="terms.html">Terms of Service</a>
+    <a href="deletion.html">Data Deletion Request</a>
+    <a href="support.html">Contact &amp; Support</a>
+  </div>
+  <span class="footer-copy">© 2026 Smart Life Reminder. All rights reserved.</span>
+</footer>
+
+<script>
+  // Dynamic Scroll Progress Bar
+  window.addEventListener('scroll', () => {
+    const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+    const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+    const scrolled = (winScroll / height) * 100;
+    document.getElementById('progress-bar').style.width = scrolled + '%';
+  });
+
+  // Sidebar link highlighting based on scroll position
+  const sections = document.querySelectorAll('.legal-content section');
+  const navLinks = document.querySelectorAll('.sidebar-link');
+
+  window.addEventListener('scroll', () => {
+    let current = '';
+    sections.forEach(section => {
+      const sectionTop = section.offsetTop;
+      const sectionHeight = section.clientHeight;
+      if (pageYOffset >= (sectionTop - 150)) {
+        current = section.getAttribute('id');
+      }
+    });
+
+    navLinks.forEach(link => {
+      link.classList.remove('active');
+      if (link.getAttribute('href').slice(1) === current) {
+        link.classList.add('active');
+      }
+    });
+  });
+</script>
+
+</body>
+</html>
